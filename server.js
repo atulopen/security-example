@@ -9,7 +9,17 @@ const PORT = 3000;
 
 app.use(helmet());
 
-app.use('/secret', (req, res) => {
+const checkAuth = (req, res, next) => {
+    let checkLogin = false;
+    if (!checkLogin) {
+        res.status(401);
+        return res.end();
+    }
+    return next();
+}
+
+
+app.use('/secret', checkAuth, (req, res) => {
     res.send('Your personal secret value is 42');
 });
 
